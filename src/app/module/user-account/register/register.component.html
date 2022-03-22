@@ -1,0 +1,69 @@
+<ngx-spinner bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Loading...
+    </div>
+</ngx-spinner>
+<ngx-spinner name="loading" bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Is preparing for you, please wait!
+    </div>
+</ngx-spinner>
+
+<div class="container">
+    <div class="box">
+        <h4 class="text-center">Register Page</h4>
+        <form action="#" [formGroup]="form" (ngSubmit)="submit()" class="form-horizontal">
+            <div class="form-group">
+                <label for="">Fullname</label>
+                <div class="input-group">
+                    <input type="text" formControlName="name" placeholder="Enter your name" class="form-control">
+                </div>
+                <div *ngIf="!form.value.name && errorName">
+                    <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> Name is required.
+                        <button type="button" class="close" (click)="errorName=false" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="">Email</label>
+                <div class="input-group">
+                    <input type="email" formControlName="email" placeholder="Enter your email" class="form-control">
+                </div>
+                <div *ngIf="!form.value.email && errorEmail">
+                    <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> Email is required.
+                        <button type="button" class="close" (click)="errorEmail=false" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Password</label>
+                <div class="input-group">
+                    <input type="password" formControlName="password" placeholder="Enter your password" class="form-control">
+                </div>
+                <div *ngIf="!form.value.password && errorPassword">
+                    <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> Password is required.
+                        <button type="button" class="close" (click)="errorPassword=false" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <a href="#" routerLink="/account/signin" class="left-margin">You already have account!</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,156 @@
+<ngx-spinner bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Saving...
+    </div>
+</ngx-spinner>
+<ngx-spinner name="loading" bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Is preparing for you, please wait! </div>
+</ngx-spinner>
+
+
+<div class="mymodal" *ngIf="withCompanyModal">
+    <div class="content-center" style="width:50%;height:50vh">
+        <div class="header-modal">
+            <button type="btn" class="btn btn-default btn-md" (click)="withCompanyModal=false">
+            <ion-icon name="return-up-back-outline"></ion-icon> &nbsp; BACK
+          </button>
+        </div>
+        <div class="content-modal">
+            <div class="content-form">
+                <form [formGroup]="followCompany" (ngSubmit)="submitToFollowCompany()" class="form-horizontal">
+                    <h4 class="text-center">Enter Company ID</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" formControlName="companyId" placeholder="Enter Company ID" class="form-control">
+                        </div>
+                    </div>
+                    <div *ngIf="!followCompany.value.companyId&& fieldFollowError">
+                        <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong> Field is required.
+                        </div>
+                    </div>
+
+                    <div class="text-center" style="margin-top:20px">
+                        <button class="btn btn-success btn-md" type="submit">
+                      <ion-icon name="heart-outline"></ion-icon>
+                      Follow this company!
+                    </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mymodal" *ngIf="createRoomModal">
+    <!-- Create Room -->
+    <div class="content-left" style="width:40%;height:100vh">
+        <div class="header-modal">
+            <button type="btn" class="btn btn-default btn-md" (click)="createRoomModal=false;createCompany=false;">
+              <ion-icon name="return-up-back-outline"></ion-icon> &nbsp; BACK
+            </button>
+            <h4 class="text-center"> Create your own meeting room list here.</h4>
+            <div class="content-modal">
+                <form [formGroup]="room" (ngSubmit)="submitRoom()" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="">Room name</label>
+                        <div class="input-group">
+                            <input type="text" formControlName="roomName" placeholder="Enter room name" class="form-control">
+                        </div>
+                        <div *ngIf="!room.value.roomName && errorRoomField">
+                            <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Max Number of people in the room</label>
+                        <div class="input-group">
+                            <input type="text" formControlName="headCount" placeholder="Enter number of people" class="form-control">
+                        </div>
+                        <div *ngIf="!room.value.headCount && errorRoomField">
+                            <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Photo (Use URL)</label>
+                        <div class="input-group">
+                            <input type="text" formControlName="photoUrl" placeholder="http:// or https://" class="form-control">
+                        </div>
+                        <div *ngIf="!room.value.photoUrl && errorRoomField">
+                            <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description/Facilities</label>
+                        <div class="input-group">
+                            <textarea name="" id="" formControlName="description" class="form-control" placeholder="Description"></textarea>
+                        </div>
+                        <div *ngIf="!room.value.description&& errorRoomField">
+                            <div style="margin-top:10px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success">
+                          Next
+                          <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Create Company -->
+    <div class="content-left" style="width:30%;height:100vh" *ngIf="createCompany">
+        <div class="header-modal">
+            <h4 class="text-center"> Please create your own company name.</h4>
+            <div class="content-modal">
+                <form [formGroup]="company" (ngSubmit)="submitCompany()" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label">Company Name</label>
+                        <div class="input-group">
+                            <input type="text" formControlName="companyName" placeholder=" Enter company name " class="form-control ">
+                        </div>
+                        <div *ngIf="!company.value.companyName && errorCreateCompanyField ">
+                            <div style="margin-top:10px " class="alert alert-danger alert-dismissible fade show " role="alert ">
+                                <strong>Error!</strong> Field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="input-group ">
+                            <button class="btn btn-block btn-success" type="submit">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body ">
+    <div class="container ">
+        <h4 class="text-center ">Welcome, {{fullname}} | <a href="javascript::void(0) " (click)="logout() ">Logout</a></h4>
+        <div class="box-data-empty ">
+            <h4>No meeting rooms have been created yet!</h4>
+            <div>Please select the menu below!</div>
+            <div class="row ">
+                <div class="col-md-6 ">
+                    <div class="menu " (click)="createRoomModal=true ">
+                        Make a list of your meeting rooms.
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="menu " (click)="withCompanyModal=true ">
+                        See the list of meeting rooms by Company.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

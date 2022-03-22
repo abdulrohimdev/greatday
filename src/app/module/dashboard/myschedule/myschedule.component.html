@@ -1,0 +1,182 @@
+<ngx-spinner bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Saving...
+    </div>
+</ngx-spinner>
+<ngx-spinner name="loading" bdOpacity=0.9 bdColor="#fff" template="<img src='assets/loader.gif' />">
+    <div style="margin-top:20px">
+        Is preparing for you, please wait!
+    </div>
+</ngx-spinner>
+
+<div class="mymodal" *ngIf="modalBookingRoom">
+    <div class="content-left" style="width:40%;height:100vh">
+        <div class="header-modal">
+            <button type="btn" class="btn btn-default btn-md" (click)="modalBookingRoom=false">
+              <ion-icon name="return-up-back-outline"></ion-icon> &nbsp; BACK
+            </button>
+        </div>
+        <div class="content-modal">
+            <form [formGroup]="formBookingRoom" (ngSubmit)="next()" class="form-horizontal">
+                <div class="form-group">
+                    <label for="">date of using the room?</label>
+                    <div class="input-group">
+                        <input type="date" formControlName="date" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">From</label>
+                            <div class="input-group">
+                                <input type="time" formControlName="fromTime" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">To</label>
+                            <div class="input-group">
+                                <input type="time" formControlName="toTime" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Choose a room</label>
+                    <div class="input-group">
+                        <input type="text" formControlName="roomName" placeholder="Choose" (click)="getRoom()" (keyup)="chooseRoom($event)" class="form-control">
+                    </div>
+                    <div class="input-group" *ngIf="roomListModal">
+                        <div class="selectSearch">
+                            <div class="selectItemRoom" *ngFor="let row of roomList" (click)="selectedRoom(row)">
+                                {{ row.roomName }} - {{ row.companyName }} {{row.isAvailable}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Notes</label>
+                    <div class="input-group">
+                        <textarea name="" formControlName="description" class="form-control" placeholder="Enter Notes"></textarea>
+                    </div>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-success">
+                   Next
+                  <ion-icon name="arrow-forward-outline"></ion-icon>
+                </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="content-left" style="width:40%;height:100vh" *ngIf="whoInTheRoom">
+        <div class="header-modal">
+            <h4 class="text-center">
+                Who uses this room?
+            </h4>
+        </div>
+        <div class="content-modal">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>List User</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-success btn-sm" type="button" (click)="addUserOnRoom()">
+                <ion-icon name="add-outline"></ion-icon>
+                Add
+              </button>
+                </div>
+            </div>
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of accountData;let index=index">
+                        <td>{{row.name}}</td>
+                        <td>{{row.email}}</td>
+                        <td>
+                            <button (click)="deleteAccountData(index)" class="btn btn-danger btn-round btn-sm" type="button">
+                              -
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group text-left">
+                <button type="button" (click)="create()" class="btn btn-success">
+                   Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mymodal" *ngIf="modalAddUserRoom">
+    <div class="content-center" style="width:30%;max-height:70vh;overflow-y: auto;">
+        <div class="header-modal">
+            <button type="btn" class="btn btn-default btn-md" (click)="modalAddUserRoom=false">
+              <ion-icon name="return-up-back-outline"></ion-icon> &nbsp; BACK
+           </button>
+        </div>
+        <div class="content-modal">
+            <input type="text" placeholder="Search user account" (keyup)="searchAccountData($event)" class="form-control">
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="accountLoader">
+                    <tr>
+                        <td colspan="3" class="text-center">Loading...</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!accountLoader">
+                    <tr *ngFor="let row of accountListRecord">
+                        <td>{{row.name}}</td>
+                        <td>{{row.email}}</td>
+                        <td>
+                            <button *ngIf="row.uuid !== myUuid" class="btn btn-success btn-sm" (click)="selectAccount(row)"> + </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="body">
+    <div class="container">
+        <h4 class="text-center ">Welcome, {{fullname}} | <a href="javascript:void(0)" (click)="logout() ">Logout</a></h4>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let row of dataSchedule">
+                <div class="card" style="margin-top:20px">
+                    <img class="card-img-top img-room" src="{{row.photoUrl}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{row.roomName}} - {{row.companyName}}</h5>
+                        <div class="card-text">{{row.date}} - [{{row.fromTime}} to {{row.toTime}}]</div>
+                        <div class="card-text">{{row.description}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-data-empty" (click)="addBookingRoom()">
+                    <div class="text-center" style="color:#999;padding:20px">
+                        <ion-icon name="add-outline" style="font-size:50px;"></ion-icon>
+                        <h4>You don't have a meeting schedule yet!</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
