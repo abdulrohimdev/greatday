@@ -1,0 +1,3 @@
+[submodule "meeting_room/meeting_room/frontend"]
+	path = meeting_room/meeting_room/frontend
+	url = https://github.com/abdulrohimdev/greatday.git
